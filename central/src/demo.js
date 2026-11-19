@@ -1,0 +1,28 @@
+// Somente a prévia ?demo=1 usa estes exemplos. Não há gravação em localStorage.
+const now='2026-11-19T14:00:00Z';
+const initial=[
+ ['s1','Pessoa exemplo','Design','Livro','Um livro que ficou comigo','Uma indicação de leitura, com uma reflexão sobre como enxergar a criatividade no cotidiano.','recebida'],
+ ['s2','Pessoa exemplo','Copy','Reflexão','O que faz a gente se sentir parte?','Uma reflexão para conversar sobre pertencimento e os pequenos gestos que aproximam o time.','selecionada'],
+ ['s3','Pessoa exemplo','Tráfego','Música','Uma música para abrir o fim de semana','Queria dividir uma música e contar por que ela virou companhia nos meus dias.','em_analise'],
+ ['s4','Pessoa exemplo','CS','Ideia para o jornal','Um espaço para os bastidores','Que tal mostrar como uma ideia passa pelos setores até chegar ao cliente?','recebida'],
+ ['s5','Pessoa exemplo','Comercial','Filme ou série','Uma sessão para o feriado','Uma sugestão de filme para conversar depois, com uma indicação sem spoilers.','selecionada']
+].map(([id,first_name,sector,kind,title,body,status],i)=>({id,first_name,sector,kind,title,body,status,revision:1,created_at:new Date(Date.parse(now)-i*3600000).toISOString(),assigned_edition:null,share_consent:true,show_on_board:i===2,source_url:i===2?'https://www.youtube.com/':null}));
+let rows=structuredClone(initial),notes={},ratings=[{edition_id:'002',score:5,comment:'Exemplo: gostei dos registros da semana.'},{edition_id:'002',score:4,comment:''},{edition_id:'001',score:4,comment:''}],polls=[{id:'p1',question:'Qual espaço tu quer ver na próxima edição?',is_open:true,created_at:now,options:[{id:'o1',label:'Indicações do time',position:1,votes:4},{id:'o2',label:'Bastidores dos projetos',position:2,votes:3},{id:'o3',label:'Uma reflexão da semana',position:3,votes:2}],votes:9}];
+const editions=[{id:'003',title:'Consciência se pratica todos os dias.',edition_date:'2026-11-19',url:null,published:false,voting_open:false},{id:'002',title:'Sexta-feira 13',edition_date:'2026-11-13',url:'https://trafegodaadapt.github.io/adapt_em_pauta/edicoes/2026/edicao-002-sexta-feira-13.html',published:true,voting_open:true},{id:'001',title:'Adapt em Pauta · Edição 001',edition_date:'2026-11-06',url:'https://trafegodaadapt.github.io/adapt_em_pauta/edicoes/2026/edicao-001.html',published:true,voting_open:false}];
+const receipts=new Map();
+export function makeDemo(){return {
+ configured:true,demo:true,board:async()=>structuredClone(rows.filter(r=>r.show_on_board&&r.share_consent)),publishSuggestion:async(id,show)=>{const r=rows.find(r=>r.id===id);if(!r.share_consent)throw Error('Sem autorização do leitor.');r.show_on_board=show;r.revision++;return structuredClone(r);},session:async()=>({email:'organizacao@exemplo.test'}),access:async()=>({organizer:true}),signOut:async()=>{},
+ async dashboard(){const sums=ratings.reduce((n,r)=>n+r.score,0);return structuredClone({suggestions:rows,editions,metrics:{suggestions:rows.length,new_suggestions:rows.filter(r=>r.status==='recebida').length,selected:rows.filter(r=>r.status==='selecionada').length,ratings:ratings.length,average:ratings.length?Math.round(sums/ratings.length*10)/10:null,edition_results:editions.map(e=>{const rr=ratings.filter(r=>r.edition_id===e.id);return {...e,responses:rr.length,average:rr.length?Math.round(rr.reduce((a,r)=>a+r.score,0)/rr.length*10)/10:null,...Object.fromEntries([1,2,3,4,5].map(n=>['score_'+n,rr.filter(r=>r.score===n).length]))}}),poll_results:polls}});},
+ async review(id,revision,status,assigned_edition){const r=rows.find(x=>x.id===id);if(!r||r.revision!==revision)throw Error('Esta pauta mudou. Atualiza a lista.');Object.assign(r,{status,assigned_edition,revision:r.revision+1});return structuredClone(r);},
+ notes:async id=>structuredClone(notes[id]||[]),
+ async addNote(id,body){const n={id:crypto.randomUUID(),body,created_at:new Date().toISOString()};(notes[id]||=[]).push(n);return structuredClone(n);},
+ async submitSuggestion(d){if(receipts.has(d.request_id))return receipts.get(d.request_id);const r={...d,id:crypto.randomUUID(),revision:1,status:'recebida',created_at:new Date().toISOString(),assigned_edition:null};rows.unshift(r);const receipt={id:r.id,created_at:r.created_at};receipts.set(d.request_id,receipt);return receipt;},
+ editions:async()=>structuredClone(editions.filter(e=>e.published&&e.voting_open)),
+ async rating(edition,score,comment){if(!editions.find(e=>e.id===edition)?.voting_open)throw Error('Avaliação encerrada.');ratings=ratings.filter(r=>!(r.demo_user&&r.edition_id===edition));ratings.push({edition_id:edition,score,comment,demo_user:true});return {saved:true};},
+ async setVoting(id,open){const e=editions.find(e=>e.id===id);if(e?.published)e.voting_open=open;},
+ async createPoll(question,options){const id=crypto.randomUUID();polls.unshift({id,question,is_open:true,created_at:new Date().toISOString(),votes:0,options:options.map((label,i)=>({id:crypto.randomUUID(),label,position:i+1,votes:0}))});return id;},
+ async closePoll(id){polls.find(p=>p.id===id).is_open=false;},
+ polls:async()=>structuredClone(polls.filter(p=>p.is_open)),
+ async vote(id,option){const p=polls.find(p=>p.id===id);if(!p?.is_open)throw Error('Enquete encerrada.');if(p.demo_choice)p.options.find(o=>o.id===p.demo_choice).votes--;else p.votes++;p.options.find(o=>o.id===option).votes++;p.demo_choice=option;return {saved:true};},
+ comments:async id=>structuredClone(ratings.filter(r=>r.edition_id===id&&r.comment).map(r=>({...r,updated_at:now})))
+};}
