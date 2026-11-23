@@ -1,56 +1,55 @@
-# Central Adapt em Pauta — V3
+# Central Adapt em Pauta — V4
 
-Dashboard dos organizadores com consulta pública, sem login por e-mail, conforme escolha do usuário. Qualquer pessoa com o link pode ler sugestões e resultados. Alterações editoriais exigem uma chave separada, verificada no banco e guardada apenas em memória na aba.
+Revisão de 23/11/2026. [Abrir a Central](https://trafegodaadapt.github.io/adapt_em_pauta/central/).
 
-## Uso
+A consulta é pública, sem e-mail. Quem tiver o link pode ler sugestões e resultados. As alterações exigem a chave dos organizadores. As três sugestões recebidas antes desta revisão foram preservadas sem mudanças editoriais.
 
-- `public/index.html`: dashboard para hospedagem HTTP/GitHub Pages.
-- `public/participar.html`: envio de ideias, avaliações, votos e mural.
-- `revisao/conectada/index.html`: HTML autônomo conectado ao banco real, para abrir localmente. Precisa de internet.
-- `revisao/previa/index.html`: demonstração explícita com dados fictícios, sem envios reais.
+## Como usar
 
-O dashboard reúne visão geral, sugestões, planejamento, arquivo, avaliações e enquetes. Temas: Verão, Dark emo, Jornal P&B e Revista. O tema é salvo no navegador; os dados reais ficam no Supabase.
+1. Clicar em **Entrar no modo de edição** e digitar a chave ou carregar seu arquivo .txt. Se a entrada for aberta ao tentar salvar uma pauta, o preenchimento fica mantido e a ação continua depois da validação.
+2. Em **Nova edição**, informar número, tema e data prevista. A próxima identificação é sugerida a partir do arquivo. Uma edição histórica pode manter a data desconhecida em branco.
+3. Em **Sugestões**, revisar a contribuição, selecionar o status e vincular à edição. O planejamento agrupa as pautas selecionadas por edição e permite exportar CSV com texto, links e situação do mural.
+4. Em **Mural dos leitores**, liberar ou retirar uma indicação. A liberação depende do consentimento do leitor. A seleção da pauta e a exibição no mural são decisões separadas. A área **Mural no jornal** mostra a prévia do que já está liberado.
+5. Usar notas privadas para as observações da redação; criar ou encerrar enquetes; abrir ou fechar avaliações por edição.
 
-## Participação e publicação
+Editar o cadastro de uma edição atualiza o planejamento e o arquivo. Isso não publica automaticamente o HTML do jornal: ao cadastrar uma edição já publicada, informar seu endereço disponível na web.
 
-O leitor informa primeiro nome, setor, tipo, título, texto e link HTTPS opcional. A tela avisa que a Central é pública. Uma autorização adicional permite que a redação exiba a indicação no mural do jornal. O envio gera protocolo somente após confirmação do banco. Repetir o mesmo envio não cria outra sugestão.
+## Acesso dos organizadores
 
-Para liberar uma indicação, abrir seu detalhe na Central e clicar em Liberar no mural do jornal. Somente sugestões com consentimento podem aparecer. É possível retirar a indicação depois. Selecionar uma pauta para uma edição é uma decisão independente da liberação no mural.
+Não há login por e-mail. Com “Manter o acesso nesta aba”, a chave fica em sessionStorage por até oito horas desde a entrada, inclusive após atualizar a página. Não é salva em localStorage. Fechar a aba ou usar Bloquear edição encerra o acesso. Sem essa opção, recarregar também apaga o acesso.
 
-Avaliações e enquetes aceitam uma resposta por identificador aleatório de navegador. Reenviar atualiza a escolha. Limpar os dados ou usar outro navegador permite outra identificação: isso não garante uma pessoa por voto. O identificador é armazenado como hash no servidor e não aparece na consulta pública. A tela do jornal não exibe totais das votações; eles podem ser vistos por qualquer pessoa com o link da Central. Comentários das avaliações também são públicos e não incluem identidade do avaliador.
+A chave deve circular separadamente entre os organizadores. Não está no HTML, no repositório ou no ZIP público. O servidor a confere em cada alteração. A validação de acesso não depende apenas de esconder botões na interface.
 
-## Edição
+## Quatro temas
 
-Clicar em Liberar edição e informar a chave entregue separadamente aos organizadores. Ela permite mudar status e edição, gerenciar o mural, adicionar notas internas e abrir/fechar votações. Recarregar ou Bloquear edição apaga a chave da aba. Não colocar essa chave em config.js, HTML, GitHub, prints ou ZIP. Não há requisito de e-mail.
+Arte vetorial original e padrões inspirados nas referências enviadas: **Verão retrô** (creme, azul, vermelho, sol, palmeira e xadrez), **Dark emo** (roxo, preto, lilás, caveira e coração xadrez), **Revista retrô** (papel, azul envelhecido e tipografia de pôster) e **Jornal P&B** (serifas, filetes e composição em preto e branco). O tema fica salvo neste navegador.
 
-O servidor confere a chave em cada alteração. Notas da redação só são retornadas com a chave. Revisões de status usam versão para detectar alterações simultâneas.
+O CSS está limitado à Central. A revisão não alterou o jornal publicado nem as edições anteriores.
 
-## Banco ativo
+## Banco e participação
 
-Projeto `adapt-em-pauta-central`, referência `tumkwdobixtleqwhvdpu`, organização `trafego da adapt`, região São Paulo. `public/config.js` contém apenas URL e chave publicável. Não contém chave secret/service_role nem a chave editorial.
+Projeto Supabase `tumkwdobixtleqwhvdpu`, organização `trafego da adapt`. `config.js` contém apenas URL e chave publicável. Nenhuma chave secret/service_role está no cliente.
 
-Schema privado `aep_hub`, RLS ativo em todas as tabelas e acesso direto revogado. As funções públicas usam SECURITY INVOKER e chamam operações específicas no schema privado com search_path fixo. O schema `aep_hub` deve permanecer fora dos schemas expostos pela Data API. O aviso informativo [RLS sem políticas](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy) é esperado: as tabelas privadas negam acesso direto, e as operações autorizadas usam RPCs.
+O schema privado `aep_hub` tem RLS em todas as tabelas e acesso direto revogado. Operações públicas usam wrappers SECURITY INVOKER e funções específicas no schema privado, com permissões explícitas e search_path fixo. As funções de edição exigem a chave. Notas internas não entram na consulta pública. O schema privado deve continuar fora dos schemas expostos pela Data API.
 
-Implementação ativa: `database/003_central_publica.sql`, `004_comentarios.sql`, `005_arquivo_especial.sql`, `006_settings_singleton.sql`. Os arquivos 001/002 e `tests/database.mjs` preservam o modelo anterior com e-mail e não devem ser aplicados neste projeto. Não reaplicar 003 em um projeto já criado.
+O aviso informativo [RLS sem políticas](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy) é esperado nessa configuração privada: tabelas negam acesso direto e as operações autorizadas passam pelas RPCs.
 
-`publico-template.sql` e `scripts/preparar-banco-publico.py` servem para um novo projeto. O preparador gera a chave fora da pasta pública e coloca somente o hash na migração. Não rotacionar uma chave existente sem coordenar a alteração do hash no banco.
+O leitor pode sugerir título, texto e link HTTPS, autorizar a exibição no mural, avaliar uma edição aberta e responder enquetes. Votos usam um identificador aleatório de navegador, armazenado como hash no servidor. Reenviar atualiza a escolha. Limpar os dados ou trocar de navegador permite uma nova identificação: isso não garante uma pessoa por voto.
 
-O arquivo reúne as edições 001, 002 e especial Vamo di Pagodin. A edição 003 está em preparação, com avaliações fechadas. Nenhuma resposta fictícia foi mantida em produção.
+Os resultados não aparecem na tela de votação do jornal; podem ser consultados por quem tem o link da Central, conforme a opção pública escolhida. Comentários de avaliações não incluem identidade do avaliador.
 
-## Jornal
+Migrações da revisão: `database/007_editor_editions.sql` e `008_edition_optional_date.sql`. Já aplicadas no projeto ativo. As migrações 001/002 e o antigo teste de banco preservam um modelo histórico com e-mail, que não deve ser aplicado neste projeto ativo. Não reaplicar migrações já registradas.
 
-`adapt-em-pauta-ED003-19nov-v15-central-conectada.html` incorpora o formulário e o botão Ver sugestões dos leitores. O mural abre sobre o jornal, com primeiro nome, indicação, comentário e link. `scripts/integrar-mural-v15.py` parte da V14 e preserva as fotos sem títulos, enquadramento do Giro, foto integral da Expovale, sete capítulos e horóscopo oficial sem a função de linguagem da firma.
+## Compilação e verificações
 
-O HTML exportado mantém a integração e omite os campos digitados e o modo de teste. Escape fecha o diálogo e devolve o foco ao botão. A edição 003 não substituiu o jornal em circulação.
+`node scripts/build.mjs` compila JS/CSS e copia as quatro artes de tema. A pasta de publicação é `public/`, hospedada em `central/` no GitHub Pages.
 
-## Compilação e testes
+As verificações da revisão estão no workspace, em `revisao/v4`:
 
-`node scripts/build.mjs` compila JS e CSS. `scripts/preview-autonoma.py` gera a demonstração. Após os testes, `scripts/entregar-v3.py` gera HTMLs conectados, pacotes e manifesto; confere que a chave editorial não entrou em nenhum ZIP.
+- Leitura do banco real e entrada com a chave real, sem modificar sugestões.
+- 168 combinações: quatro temas, sete áreas e seis larguras de tela.
+- Fluxos editoriais em uma simulação HTTP isolada: retomada após entrada, edição criada dentro da pauta, vínculo, mural, consentimento, notas, concorrência, CSV e enquetes.
+- Falha de conexão com nova tentativa, sem formulário de e-mail; clique durante o carregamento inicial.
+- Criação e edição no PostgreSQL real, chave incorreta, duplicidade, link obrigatório e data histórica opcional testados em transação com rollback. Nenhum registro de teste permaneceu.
 
-- `tests/dashboard.cjs`: 36 combinações de área e largura, navegação, triagem, estados vazios e exportação.
-- `tests/browser.cjs`: regressões da área do time, notas, filtros, CSV e demonstração.
-- `tests/public.cjs`: leitura no Supabase real, consulta sem e-mail, arquivo, chave correta/incorreta, bloqueio de alterações sem chave e 96 combinações dos quatro temas.
-- `tests/jornal-public.cjs`: mural real no HTML local, quatro larguras, pré-seleção, formulário simulado e exportação.
-- Banco remoto: envio, idempotência, consentimento, moderação, chave, concorrência, URL, votos, avaliações e comentários foram testados em transação com rollback. Nenhum dado de teste permaneceu.
-
-As versões antigas dos scripts de entrega empacotam prévias históricas. Para V3, usar apenas entregar-v3.py. Os relatórios atuais ficam em revisao/publico e revisao/estado-implementacao.json.
+O relatório `qa.json` corresponde aos testes locais; a confirmação da versão efetivamente publicada fica em `publicacao-confirmada.json`.
