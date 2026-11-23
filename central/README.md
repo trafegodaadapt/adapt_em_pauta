@@ -1,4 +1,4 @@
-# Central Adapt em Pauta — V4
+# Central Adapt em Pauta — V4.1
 
 Revisão de 23/11/2026. [Abrir a Central](https://trafegodaadapt.github.io/adapt_em_pauta/central/).
 
@@ -53,3 +53,7 @@ As verificações da revisão estão no workspace, em `revisao/v4`:
 - Criação e edição no PostgreSQL real, chave incorreta, duplicidade, link obrigatório e data histórica opcional testados em transação com rollback. Nenhum registro de teste permaneceu.
 
 O relatório `qa.json` corresponde aos testes locais; a confirmação da versão efetivamente publicada fica em `publicacao-confirmada.json`.
+
+## Layout V4.1 · 23/11/2026
+
+Composição mais aberta: cabeçalho sem moldura, indicadores em faixa, sugestões em lista e separadores discretos. Menu com cantos suaves, botões arredondados e destaque orgânico para a próxima edição. Os quatro temas e os fluxos editoriais foram preservados. O acabamento fica em `src/layout.css`, carregado após os estilos de tema.

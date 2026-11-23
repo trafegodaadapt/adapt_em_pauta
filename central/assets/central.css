@@ -447,3 +447,104 @@ dialog{padding:30px;border:1px solid var(--line);background:#f7f7f3;color:var(--
 @media(max-width:400px){.central-page .pipeline-legend{grid-template-columns:1fr}}
 
 .public-notice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--line,#d8d7cf);border-radius:12px;font-size:12px;line-height:1.6;margin:0 0 18px}.public-notice button{margin-left:auto}.board-card{padding:24px 0;border-bottom:1px solid var(--line,#d8d7cf)}.board-card h3{font-size:24px;margin:10px 0}.board-card .detail-body{white-space:pre-wrap;overflow-wrap:anywhere}.board-card a{display:inline-block;margin-top:12px}.consent{display:flex!important;align-items:flex-start;gap:12px;line-height:1.6;font-size:13px}.consent input{width:18px!important;min-width:18px;height:18px;margin-top:3px!important}.detail-notes>.secondary{display:block;margin-top:18px}#editing-form input{width:100%}.reader-tabs{flex-wrap:wrap}.reader-tabs button{flex:1 1 auto}#editing-dialog p{line-height:1.6}.reader-account{font-size:12px}
+
+/* A flowing editorial desk: open sections, one quiet navigation rail, soft controls. */
+.central-page{--rule:color-mix(in srgb,var(--ink) 16%,transparent);--wash:color-mix(in srgb,var(--surface) 65%,transparent)}
+.central-page .central-shell{grid-template-columns:240px minmax(0,1fr);gap:8px;padding:18px}
+.central-page .sidebar{top:18px;height:calc(100svh - 36px);border:0;border-radius:28px;padding:30px 22px 24px;box-shadow:none}
+.central-page[data-theme=jornal] .sidebar,.central-page[data-theme=verao] .sidebar{border:0}
+.central-page .sidebar .brand{font-size:30px}
+.central-page .nav-item{border:0;border-radius:14px;font-size:14px;min-height:48px;padding:12px}
+.central-page .nav-item.active{border:0;box-shadow:none;background:var(--surface)}
+.central-page .nav-item:hover:not(.active){border:0;background:color-mix(in srgb,var(--sideink) 10%,transparent)}
+.central-page .nav-item b{border:0;border-radius:30px;padding:3px 7px}
+.central-page .side-bottom{border-color:color-mix(in srgb,var(--sideink) 25%,transparent)}
+.central-page .workspace{padding:8px 30px 24px;max-width:1500px}
+.central-page .workspace-top{border-bottom:1px solid var(--rule);padding-bottom:18px}
+.central-page :is(.data-mode,#theme-selector){border-color:var(--rule);border-radius:30px}
+.central-page #theme-selector{padding-inline:15px}
+.central-page #organizer-avatar{border-radius:50%}
+.central-page .organizer-chip{border-color:var(--rule)}
+.central-page .page-intro,.central-page[data-theme=verao] .page-intro,.central-page[data-theme=emo] .page-intro,.central-page[data-theme=jornal] .page-intro{background:transparent;border:0;box-shadow:none;border-radius:0;padding:24px 0 18px;margin:22px 0 12px;min-height:244px;overflow:visible}
+.central-page .page-intro:after{display:none!important}
+.central-page .page-intro>div:first-child{padding-right:240px}
+.central-page .page-intro h1{max-width:760px;font-size:clamp(38px,4.4vw,66px);letter-spacing:-.045em;line-height:1.05}
+.central-page .page-intro p:not(.eyebrow){font-size:16px;max-width:600px}
+.central-page .theme-art{width:205px;height:205px;right:0;top:5px;transform:rotate(-5deg)}
+.central-page .theme-art:before{content:'';position:absolute;inset:5px -12px -7px -14px;border-radius:56% 44% 65% 35% / 40% 58% 42% 60%;border:1px solid var(--rule);pointer-events:none}
+.central-page[data-theme=emo] .page-intro h1{color:var(--ink);text-shadow:none}
+.central-page[data-theme=emo] .page-intro :is(p,.eyebrow){color:var(--ink)}
+.central-page .intro-actions{padding-right:220px;margin-top:23px;gap:10px}
+.central-page :is(.primary,.intro-actions .primary){border-radius:30px;box-shadow:none;padding:12px 20px;font-size:14px}
+.central-page :is(.secondary,.intro-actions .secondary){border-radius:30px;border-color:var(--rule);padding:12px 19px;font-size:14px;background:var(--wash)}
+.central-page :is(input,select,textarea){border-radius:12px;border-color:var(--rule);font-size:15px}
+.central-page .access-bar,.central-page[data-theme=jornal] .access-bar{padding:13px 0 20px;margin:0 0 8px;gap:16px;background:transparent;border:0;border-bottom:1px solid var(--rule);box-shadow:none}
+.central-page[data-editing=on] .access-bar{border-left:0}
+.central-page .access-bar strong{font-size:14px}.central-page .access-bar p{font-size:13px}
+.central-page .access-bar button{padding:10px 17px;min-height:42px}
+.central-page .metrics{gap:0;background:transparent;margin:0 0 30px;border:0;border-bottom:1px solid var(--rule);padding:8px 0 20px}
+.central-page .metrics article:nth-child(n),.central-page[data-theme=jornal] .metrics article{background:transparent;border:0;border-radius:0;box-shadow:none}
+.central-page .metrics article+article{border-left:1px solid var(--rule)}
+.central-page .metrics .metric-link{padding:14px 22px;min-height:130px;border-radius:16px}
+.central-page .metrics article:first-child .metric-link{padding-left:0}
+.central-page .metrics .metric-link>span:not(.metric-icon){font-size:14px;padding-right:24px}
+.central-page .metrics strong{font-size:42px;margin:6px 0 2px}.central-page .metrics small{font-size:12px}
+.central-page .metric-icon[data-tone]{border:0;background:transparent;border-radius:50%;top:15px;right:15px}
+.central-page .metric-link:hover{background:var(--wash)}
+.central-page .dashboard-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px 36px;align-items:start}
+.central-page .dashboard-panel,.central-page[data-theme=jornal] .dashboard-panel{background:transparent;border:0;border-radius:0;box-shadow:none;padding:8px 0 18px}
+.central-page .overview-recent{padding-right:6px}
+.central-page .panel-heading .eyebrow{font-size:11px;letter-spacing:.1em;margin-bottom:10px}
+.central-page .panel-heading h2{font-size:30px;line-height:1.15}
+.central-page .panel-heading>.text-button{font-size:13px}
+.central-page .recent-idea{padding:22px 0;border-color:var(--rule);gap:8px 12px}
+.central-page .recent-idea:last-child{border:0}
+.central-page .recent-copy>strong{font-size:25px}.central-page .recent-copy>small{font-size:13px}
+.central-page .recent-kind{font-size:12px}
+.central-page .badge,.central-page .badge[data-state],.central-page .publication-state{border:0;border-radius:30px;padding:7px 11px;font-size:12px}
+.central-page .overview-next,.central-page[data-theme=emo] .overview-next{padding:28px 30px 32px;background:var(--side);border:0;border-radius:36px 16px 36px 16px;min-height:240px;position:relative;overflow:hidden}
+.central-page .overview-next h2{font-size:32px;max-width:360px;position:relative}
+.central-page .overview-next .next-state{border:0;border-radius:30px;padding:7px 11px;font-size:11px;letter-spacing:.04em}
+.central-page .overview-next .fineprint{font-size:14px;position:relative;max-width:360px}
+.central-page .overview-next .primary{background:var(--surface);color:var(--ink);border-color:transparent}
+.central-page .overview-next .primary:hover{background:var(--surface2)}
+.central-page[data-theme=emo] .overview-next{background:#431755}
+.central-page[data-theme=jornal] .overview-next{background:var(--surface2);padding:28px 30px 32px;border-radius:36px 16px 36px 16px;min-height:240px}
+.central-page .overview-next:after{display:block;content:'';position:absolute;width:160px;height:160px;border:1px solid color-mix(in srgb,var(--sideink) 16%,transparent);border-radius:50%;right:-70px;top:-80px;pointer-events:none}
+.central-page :is(.overview-pipeline,.overview-ratings,.overview-poll){padding-top:24px;border-top:1px solid var(--rule)}
+.central-page .pipeline-filter{font-size:14px}.central-page .pipeline-stack{height:10px;border-radius:20px;overflow:hidden}
+.central-page :is(.panel-description,.dashboard-empty,.chart-note,.poll-vote-total){font-size:14px}
+.central-page .view:not(#view-overview),.central-page[data-theme=jornal] .view:not(#view-overview){background:transparent;border:0;border-radius:0;padding:10px 0 24px;box-shadow:none}
+.central-page .suggestion-row{padding:26px 0;border-color:var(--rule)}
+.central-page .status-tabs{border:0;gap:8px;padding-bottom:10px}.central-page .status-tabs button{border-radius:30px;padding:10px 15px;font-size:14px}
+.central-page .filters{margin-block:24px}.central-page .filters label{font-size:14px}
+.central-page :is(.selected-card,.edition-card,.result-card,.poll-card,.board-card){border:0;border-radius:22px;background:var(--wash);padding:25px;box-shadow:none}
+.central-page .editions-grid{gap:22px}.central-page .edition-card .edition-number{font-size:40px}
+.central-page .empty{background:var(--wash);border:0;border-radius:22px;padding:28px}
+.central-page dialog{border:0;border-radius:24px;box-shadow:0 24px 80px #0004}
+.central-page .detail-dialog{border:0;border-radius:24px}
+.central-page :is(.detail-access,.source-pill,.form-status,.status-line,.internal-note,.key-file-label){border-radius:14px}
+.central-page .detail-access{border:0}.central-page .key-file-label{border-color:var(--rule)}
+.central-page .dialog-head,.central-page .detail-controls,.central-page .detail-notes,.central-page .detail-save,.central-page .workspace-footer{border-color:var(--rule)}
+.central-page .workspace-footer{padding-top:22px}
+@media(max-width:1180px){
+ .central-page .central-shell{grid-template-columns:208px minmax(0,1fr);padding:12px;gap:0}.central-page .sidebar{top:12px;height:calc(100svh - 24px);padding-inline:18px}.central-page .workspace{padding:10px 22px 25px}
+ .central-page .page-intro>div:first-child{padding-right:155px}.central-page .theme-art{width:150px;height:170px;right:0;top:20px}.central-page .intro-actions{padding-right:0}.central-page .dashboard-grid{gap:24px}.central-page .metrics .metric-link{padding:16px;min-height:145px}.central-page .metrics article:nth-child(3){border-left:0}
+ .central-page .metrics article:nth-child(n+3){border-top:1px solid var(--rule)}
+}
+@media(max-width:960px){.central-page .dashboard-grid{grid-template-columns:1fr;grid-template-areas:'recent' 'next' 'pipeline' 'ratings' 'poll'}.central-page .overview-next{min-height:220px}.central-page .overview-recent{padding-right:0}}
+@media(max-width:760px){
+ .central-page .central-shell{display:block;padding:10px}.central-page .sidebar{position:relative;top:0;height:auto;overflow:visible;border-radius:24px;padding:22px 18px 14px}.central-page .sidebar .brand{font-size:27px}
+ .central-page .sidebar nav{margin:18px -5px 0;gap:6px}.central-page .nav-item{border-radius:12px;font-size:12px;padding:9px 3px;min-height:46px}.central-page .nav-item b{padding:2px 6px;font-size:10px}
+ .central-page .workspace{padding:20px 12px}.central-page .workspace-top{padding-bottom:14px}.central-page .data-mode{font-size:11px}.central-page #theme-selector{width:128px;font-size:12px;padding:8px 10px}
+ .central-page .page-intro,.central-page[data-theme=verao] .page-intro,.central-page[data-theme=emo] .page-intro,.central-page[data-theme=jornal] .page-intro{margin:18px 0 8px;padding:12px 0 18px;min-height:0}
+ .central-page .page-intro>div:first-child{padding-right:0}.central-page .theme-art{display:none}.central-page .page-intro h1,.central-page[data-theme=jornal] .page-intro h1{font-size:43px}.central-page .page-intro p:not(.eyebrow){font-size:16px}
+ .central-page .intro-actions{gap:8px;margin-top:20px}.central-page .intro-actions button{font-size:13px;padding:11px 15px;min-height:44px}
+ .central-page .access-bar{padding-bottom:20px;margin-bottom:6px;gap:10px}.central-page .access-bar button{font-size:13px;width:auto}
+ .central-page .metrics{padding-bottom:14px;margin-bottom:24px}.central-page .metrics .metric-link{padding:14px 12px;min-height:142px}.central-page .metrics article:nth-child(odd) .metric-link{padding-left:0}.central-page .metrics .metric-link>span:not(.metric-icon){font-size:13px;padding-right:16px}.central-page .metrics small{font-size:12px}.central-page .metrics strong{font-size:38px}.central-page .metric-icon[data-tone]{width:21px;height:21px;right:8px;top:16px}
+ .central-page .dashboard-grid{gap:22px}.central-page .panel-heading{gap:10px}.central-page .panel-heading h2{font-size:29px}.central-page .panel-heading>.text-button{font-size:12px}.central-page .recent-copy>strong{font-size:25px}.central-page .recent-idea{padding:22px 0}
+ .central-page .overview-next,.central-page[data-theme=emo] .overview-next,.central-page[data-theme=jornal] .overview-next{padding:26px 24px;border-radius:30px 14px 30px 14px}.central-page .overview-next h2{font-size:31px}
+ .central-page .view:not(#view-overview){padding:10px 0 20px}.central-page .detail-dialog{padding:22px 20px 30px;width:calc(100vw - 20px);max-height:calc(100svh - 24px)}
+ .central-page :is(.selected-card,.edition-card,.result-card,.poll-card,.board-card){padding:22px;border-radius:20px}
+}
+@media(max-width:359px){.central-page .central-shell{padding:8px}.central-page .workspace{padding-inline:10px}.central-page .nav-item{font-size:11px}.central-page .page-intro h1,.central-page[data-theme=jornal] .page-intro h1{font-size:38px}.central-page .intro-actions button{font-size:12px;padding-inline:12px}.central-page .metrics .metric-link>span:not(.metric-icon){font-size:12px}.central-page .metrics .metric-link{padding-right:9px}.central-page .panel-heading{flex-wrap:wrap}}
