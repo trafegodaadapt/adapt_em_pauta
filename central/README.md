@@ -1,6 +1,6 @@
-# Central Adapt em Pauta — V4.1
+# Central Adapt em Pauta — V5
 
-Revisão de 23/11/2026. [Abrir a Central](https://trafegodaadapt.github.io/adapt_em_pauta/central/).
+Revisão de 24/11/2026. [Abrir a Central](https://trafegodaadapt.github.io/adapt_em_pauta/central/).
 
 A consulta é pública, sem e-mail. Quem tiver o link pode ler sugestões e resultados. As alterações exigem a chave dos organizadores. As três sugestões recebidas antes desta revisão foram preservadas sem mudanças editoriais.
 
@@ -57,3 +57,24 @@ O relatório `qa.json` corresponde aos testes locais; a confirmação da versão
 ## Layout V4.1 · 23/11/2026
 
 Composição mais aberta: cabeçalho sem moldura, indicadores em faixa, sugestões em lista e separadores discretos. Menu com cantos suaves, botões arredondados e destaque orgânico para a próxima edição. Os quatro temas e os fluxos editoriais foram preservados. O acabamento fica em `src/layout.css`, carregado após os estilos de tema.
+
+
+## Participação e fechamento · V5
+
+A área do leitor tem indicação rápida, história completa, votação, mural e Meus envios. A consulta de envios usa o identificador deste navegador; limpar os dados ou trocar de navegador muda a lista. O setor é opcional. A publicação no jornal continua exigindo consentimento e liberação editorial.
+
+A Central oferece três ações iniciais: revisar entradas, montar a próxima edição e conferir o fechamento. Em Planejamento, o checklist reúne edição, vínculo, autorização, mural e enquete; os indicadores mostram contribuições, publicações, autores informados e setores representados, sem ranking individual. A contagem de autores usa nome e setor, sem garantia de identidade única.
+
+Ao revisar uma contribuição, “Versão para o jornal” permite editar título, texto, link e capa. O texto original fica preservado. Sugestões arquivadas ficam fora do mural. O status Publicada exige uma edição já publicada e com link HTTPS válido. O cadastro da edição não envia o HTML ao GitHub automaticamente.
+
+“Organizar quadros” define chamada, até três destaques, quadros ativos e a pergunta que continua na próxima edição. Os quadros disponíveis são Vocês indicaram, No repeat do time, Fora do expediente, Valeu por essa, A pergunta da semana e Missão secundária. Para alternar quadros semanais e quinzenais, selecione os que entram em cada edição.
+
+Enquetes podem ter resultados públicos na Central ou reservados aos editores. No modo reservado, os totais são removidos da resposta pública do servidor, inclusive de cada opção. A chave permite consultar. Depois de encerrar, a redação pode divulgar o resultado no jornal ou recolher a divulgação.
+
+A edição 004 está cadastrada como rascunho previsto para 27/11/2026. As duas indicações autorizadas de Eduarda estão vinculadas a ela, com versões editoriais e imagens oficiais de divulgação. Uma pergunta real sobre os quadros está aberta. Nenhuma sugestão foi marcada como publicada nesta prévia.
+
+A prévia GTA está em /previas/gta-vi.html. A missão é opcional e salva o progresso apenas neste navegador; a lembrança é gerada localmente. As fotos originais do álbum não têm títulos individuais.
+
+Migrações desta revisão: supabase/migrations/20261124140216_participacao_editorial.sql e 20261124141800_fechar_ciclo_publicacao.sql. Já aplicadas no projeto conectado; não reaplicar. Os testes de gravação no PostgreSQL rodam em transação com rollback. Os testes de envio e votação no navegador usam respostas HTTP isoladas e não registram contribuições falsas no banco real.
+
+Imagens de divulgação: Disney+ (https://www.disneyplus.com/whats-on/entity-f1c31566-ec05-4d30-b23f-3177442233f4) e site oficial de Jogos Vorazes (https://hungergames.movie/), consultados em 24/11/2026. As artes GTA da equipe permanecem separadas dos registros fotográficos reais.

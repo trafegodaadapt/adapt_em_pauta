@@ -34,6 +34,7 @@ export function renderOverview(state){
  const chartNote=document.querySelector('.overview-ratings>.chart-note');if(chartNote)chartNote.hidden=!results.some(e=>Number(e.responses)>0);
  const pollHost=$('#overview-poll');pollHost.replaceChildren();const poll=(m.poll_results||[]).find(p=>p.is_open);
  if(!poll)pollHost.append(empty('Nenhuma enquete aberta. Cria uma pergunta para ouvir o time.'),action('Organizar enquetes','polls'));
+ else if(poll.hidden_results){pollHost.append(node('h3','',poll.question),node('p','fineprint','Resultado reservado aos editores até a divulgação.'));const unlock=node('button','secondary','Entrar para consultar');unlock.dataset.enterEditor='';pollHost.append(unlock);}
  else{pollHost.append(node('h3','',poll.question),node('p','poll-vote-total',formatVotes(poll.votes)+' registrados'));
   const lead=[...(poll.options||[])].sort((a,b)=>Number(b.votes)-Number(a.votes));lead.forEach(option=>{const pct=Number(poll.votes)?Math.round(Number(option.votes)/Number(poll.votes)*100):0,line=node('div','dashboard-poll-option'),text=node('div','');text.append(node('span','',option.label),node('strong','',pct+'%'));const track=node('div','score-track'),fill=node('div','score-fill');fill.style.width=pct+'%';track.append(fill);line.append(text,track);pollHost.append(line)});
   pollHost.append(node('p','chart-note','Resultados parciais · a votação continua aberta.'));

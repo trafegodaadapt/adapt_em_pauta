@@ -4,7 +4,7 @@ export const node=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.
 export const formatDate=s=>s?new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeZone:'America/Sao_Paulo'}).format(new Date(s.includes('T')?s:s+'T12:00:00Z')):'Edição especial';
 export const number=n=>new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(n);
 export const statusName={recebida:'Recebida',em_analise:'Em análise',selecionada:'Selecionada',publicada:'Publicada',arquivada:'Arquivada'};
-export const kinds=['Reflexão','Livro','Filme ou série','Música','Ideia para o jornal'];
+export const kinds=['Reflexão','Livro','Filme ou série','Música','Ideia para o jornal','Bastidor','Fora do expediente','Agradecimento'];
 export function message(el,text,isError=false){el.textContent=text;el.classList.toggle('error',isError);el.hidden=false;}
 export async function busy(button,job){const before=[...button.childNodes];button.disabled=true;button.textContent='Um instante…';try{return await job();}finally{button.disabled=false;button.replaceChildren(...before);}}
 export function demoBanner(api){if(!api.demo)return;const bar=node('div','demo-banner','PRÉVIA INTERATIVA · Dados fictícios. Nenhuma resposta real é enviada.');document.body.prepend(bar);document.body.classList.add('is-demo');}

@@ -19,15 +19,15 @@ export function makePublicApi(config){
   async restoreEditor(){try{const saved=JSON.parse(sessionStorage.getItem(editorSession)||'null');if(saved&&Date.now()-saved.time<8*3600000){await this.setEditorKey(saved.key,true);editorExpires=saved.time+8*3600000;sessionStorage.setItem(editorSession,JSON.stringify({key:editorKey,time:saved.time}));}else forget();}catch{forget();}},
   async setEditorKey(key,remember=true){editorKey=key.trim();editorExpires=Date.now()+8*3600000;try{await manage('notes',{id:null});if(remember){try{sessionStorage.setItem(editorSession,JSON.stringify({key:editorKey,time:Date.now()}));}catch{}}else{try{sessionStorage.removeItem(editorSession);}catch{}}window.dispatchEvent(new Event('aep:editor'));}catch(e){forget();throw e;}},
   saveEdition:d=>{if(!editorKey)throw Error('Entre no modo de edição.');return rpc('edit_edition',{p_key:editorKey,p_data:d});},
-  dashboard,board:()=>rpc('board'),notes:id=>editorKey?manage('notes',{id}):Promise.resolve([]),
+  dashboard,board:()=>rpc('board'),mySubmissions:()=>rpc('my_submissions',{p_reader:reader}),engagement:(action,data={})=>{if(!hasEditor())throw Error('Entra no modo de edição para salvar.');return rpc('engagement',{p_key:editorKey,p_action:action,p_data:data});},notes:id=>editorKey?manage('notes',{id}):Promise.resolve([]),
   review:(id,revision,status,edition)=>manage('review',{id,revision,status,edition}),
   publishSuggestion:(id,show)=>manage('publish',{id,show}),addNote:(id,body)=>manage('note',{id,body}),
   submitSuggestion:d=>rpc('submit',{p_reader:reader,p_request:d.request_id,p_data:d}),
   editions:async()=>(await dashboard()).editions.filter(e=>e.published&&e.voting_open),
-  polls:async()=>(await dashboard()).metrics.poll_results.filter(p=>p.is_open).map(p=>({id:p.id,question:p.question,options:p.options.map(({id,label,position})=>({id,label,position}))})),
+  polls:async()=>(await dashboard()).metrics.poll_results.filter(p=>p.is_open).map(p=>({id:p.id,edition_id:p.edition_id,question:p.question,options:p.options.map(({id,label,position})=>({id,label,position}))})),
   rating:(id,score,comment)=>rpc('respond',{p_reader:reader,p_type:'rating',p_id:id,p_data:{score,comment}}),
   vote:(id,option)=>rpc('respond',{p_reader:reader,p_type:'vote',p_id:id,p_data:{option}}),
-  setVoting:(id,open)=>manage('set_voting',{id,open}),createPoll:(question,options)=>manage('create_poll',{question,options}),closePoll:id=>manage('close_poll',{id}),
+  setVoting:(id,open)=>manage('set_voting',{id,open}),createPoll:(question,options,edition_id='',visibility='public')=>rpc('engagement',{p_key:editorKey,p_action:'create_poll',p_data:{question,options,edition_id,visibility}}),closePoll:id=>manage('close_poll',{id}),
   comments:id=>rpc('comments',{p_id:id})
  };
 }
