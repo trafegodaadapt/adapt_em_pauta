@@ -73,7 +73,7 @@ Enquetes podem ter resultados públicos na Central ou reservados aos editores. N
 
 A edição 004 está cadastrada como rascunho previsto para 27/11/2026. As duas indicações autorizadas de Eduarda estão vinculadas a ela, com versões editoriais e imagens oficiais de divulgação. Uma pergunta real sobre os quadros está aberta. Nenhuma sugestão foi marcada como publicada nesta prévia.
 
-A prévia GTA está em /previas/gta-vi.html. A missão é opcional e salva o progresso apenas neste navegador; a lembrança é gerada localmente. As fotos originais do álbum não têm títulos individuais.
+A prévia GTA está em /previas/gta-vi.html. A missão é opcional e salva o progresso apenas neste navegador; a lembrança é gerada localmente. A prévia atual mantém somente o prédio estático na abertura e as capas das indicações. As fotos da equipe, a comparação com o original e a galeria foram retiradas a pedido do usuário.
 
 Migrações desta revisão: supabase/migrations/20261124140216_participacao_editorial.sql e 20261124141800_fechar_ciclo_publicacao.sql. Já aplicadas no projeto conectado; não reaplicar. Os testes de gravação no PostgreSQL rodam em transação com rollback. Os testes de envio e votação no navegador usam respostas HTTP isoladas e não registram contribuições falsas no banco real.
 
